@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Clone the repository
+                git url: 'https://github.com/your-repo/project.git', branch: 'main'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Compile the project (for example, a Maven project)
+                sh 'mvn clean install'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Run unit tests
+                sh 'mvn test'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Deploy the built artifact to a server or cloud platform
+                sh 'scp target/project.war user@server:/path/to/deploy'
+            }
+        }
+    }
+
+    post {
+        always {
+            // Send notifications or cleanup tasks
+            echo 'Pipeline complete!'
+        }
+    }
+}
