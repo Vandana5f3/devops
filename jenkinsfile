@@ -1,40 +1,28 @@
+// Jenkinsfile
 pipeline {
     agent any
-
+    
     stages {
-        stage('Checkout') {
+        stage('Clone Repository') {
             steps {
-                // Clone the repository
-                git url: 'https://github.com/your-repo/project.git', branch: 'main'
+                // This assumes you have the Java file in a repository.
+                // Use Git to clone the repo containing HelloWorld.java.
+                git 'https://github.com/Vandana5f3/devops.git'
             }
         }
-
-        stage('Build') {
+        
+        stage('Compile') {
             steps {
-                // Compile the project (for example, a Maven project)
-                sh 'mvn clean install'
+                // Compile the Java program
+                sh 'javac HelloWorld.java'
             }
         }
-
-        stage('Test') {
+        
+        stage('Run') {
             steps {
-                // Run unit tests
-                sh 'mvn test'
+                // Run the compiled Java program
+                sh 'java HelloWorld'
             }
-        }
-
-        stage('Deploy') {
-            steps {
-                // Deploy the built artifact to a server or cloud platform
-                sh 'scp target/project.war user@server:/path/to/deploy'
-            }
-        }
-    }
-
-    post {
-        always {
-            // Send notifications or cleanup tasks
-            echo 'Pipeline complete!'
         }
     }
 }
